@@ -7,13 +7,13 @@ import { updateBaseAmounts } from "./utils/taxUtils";
 const mindeeClient = new Client({});
 
 function findBaseForTax(filepath: string) {
-  console.log(filepath);
   const doc = mindeeClient.docFromPath(filepath);
   doc
     .parse(InvoiceV4, {
       fullText: true,
     })
     .then((response) => {
+      console.log(filepath);
       updateBaseAmounts(response);
       response.document?.taxes.forEach((taxField) => {
         console.log(
@@ -25,10 +25,15 @@ function findBaseForTax(filepath: string) {
           taxField.value
         );
       });
+      console.log();
     });
 }
 
 const okFiles = "./tests/data";
 const files: string[] = fs.readdirSync(okFiles);
-const filepath = path.join(okFiles, files[1]);
-findBaseForTax(filepath);
+files.forEach(function (filename) {
+  if (filename === ".gitkeep") {
+    return;
+  }
+  findBaseForTax(path.join(okFiles, filename));
+});
