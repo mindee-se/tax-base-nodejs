@@ -2,11 +2,10 @@
 
 The `findBaseAmounts` method is why you're here ;-)
 
-Given a `ReceiptResponse` object, it will calculate the base tax
-amount for each tax line found by the Expense Receipts API.
+Given a `Response<InvoiceV4>` object, it will calculate the base tax
+amount for each tax line found by the Invoice API.
 
-It will return a `Map`, where the tax line is the key,
-and the base amount found is the value.
+It will update each `TaxField` object in the response, setting the `base` property with the found tax base.
 
 You can find a full working example in `./src/index.ts`.
 
